@@ -1,0 +1,34 @@
+{
+  "iacTypes": [
+    "bicep"
+  ],
+  "resources": [
+    {
+      "type": "azureappservice",
+      "instances": [
+        {
+          "name": "myAppService"
+        }
+      ]
+    },
+    {
+      "type": "azurestorageaccount",
+      "instances": [
+        {
+          "name": "myStorageAccount"
+        }
+      ]
+    }
+  ],
+  "bindings": [
+    {
+      "source": "${azureappservice.myAppService}",
+      "target": "${azurestorageaccount.myStorageAccount}",
+      "connection": "system-identity",
+      "store": "",
+      "customKeys": {}
+    }
+  ],
+  "services": [],
+  "settings": []
+}
