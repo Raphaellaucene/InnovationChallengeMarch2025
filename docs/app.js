@@ -7,25 +7,32 @@ function calculateROI() {
     const costSavings = parseFloat(document.getElementById('cost-savings').value);
     const revenueIncrease = parseFloat(document.getElementById('revenue-increase').value);
     const discountRate = parseFloat(document.getElementById('discount-rate').value) / 100;
+    let riskOfFailure = parseFloat(document.getElementById('risk-of-failure').value) / 100;
 
+    // Define um valor default se riskOfFailure não for informado
+    if (isNaN(riskOfFailure) || riskOfFailure < 0) {
+        riskOfFailure = 0;
+    }
+
+    // Valida input
     if (isNaN(budget) || isNaN(employees) || isNaN(duration) || isNaN(trainingCost) || isNaN(implementationCost) || isNaN(costSavings) || isNaN(revenueIncrease) || isNaN(discountRate) || budget <= 0 || employees <= 0 || duration <= 0 || trainingCost < 0 || implementationCost < 0 || costSavings < 0 || revenueIncrease < 0 || discountRate < 0) {
-        alert("Por favor, insira valores válidos.");
+        alert("Please enter valid values.");
         return;
     }
 
-    const riskOfFailure = 0.2; // 20% risco do projeto falhar
-    const disengagementCost = employees * 1000; // Custos de desligamento de funcionários
-    const productivityIncrease = budget * 0.15; // 15% de aumento na produtividade
+    const disengagementCost = employees * 1000; // Custo de desengajamento de funcionários
+    const productivityIncrease = budget * 0.15; // 15% do orçamento para aumento de produtividade
     const totalCost = budget + trainingCost + implementationCost + disengagementCost;
+    const riskAdjustedCost = totalCost * (1 + riskOfFailure); // Custo ajustado para risco (opcional)
     const totalBenefits = costSavings + revenueIncrease + productivityIncrease;
 
-    const roi = ((totalBenefits - totalCost) / totalCost) * 100;
+    const roi = ((totalBenefits - riskAdjustedCost) / riskAdjustedCost) * 100;
 
     let recommendation = "";
     if (roi > 0) {
-        recommendation = "O projeto é financeiramente viável. Considere prosseguir.";
+        recommendation = "The project is financially viable. Consider proceeding.";
     } else {
-        recommendation = "O projeto pode não ser viável. Avalie os riscos e custos.";
+        recommendation = "The project may not be viable. Evaluate the risks and costs.";
     }
 
     document.getElementById('roi-output').innerHTML = `ROI: ${roi.toFixed(2)}%`;
