@@ -1,43 +1,46 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de ROI</title>
+    <title>ROI Calculator</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Calculadora de ROI</h1>
+        <h1>ROI Calculator</h1>
         <form id="roi-form">
-            <label for="budget">Orçamento do Projeto:</label>
+            <label for="budget">Project Budget:</label>
             <input type="number" id="budget" required>
 
-            <label for="employees">Número de Funcionários Impactados:</label>
+            <label for="employees">Number of Impacted Employees:</label>
             <input type="number" id="employees" required>
 
-            <label for="duration">Duração do Projeto (meses):</label>
+            <label for="duration">Project Duration (months):</label>
             <input type="number" id="duration" required>
 
-            <label for="training-cost">Custo de Treinamento:</label>
+            <label for="training-cost">Training Cost:</label>
             <input type="number" id="training-cost" required>
 
-            <label for="implementation-cost">Custo de Implementação:</label>
+            <label for="implementation-cost">Implementation Cost:</label>
             <input type="number" id="implementation-cost" required>
 
-            <label for="cost-savings">Economia de Custos:</label>
+            <label for="cost-savings">Cost Savings:</label>
             <input type="number" id="cost-savings" required>
 
-            <label for="revenue-increase">Aumento de Receita:</label>
+            <label for="revenue-increase">Revenue Increase:</label>
             <input type="number" id="revenue-increase" required>
 
-            <label for="discount-rate">Taxa de Desconto (%):</label>
+            <label for="discount-rate">Discount Rate (%):</label>
             <input type="number" id="discount-rate" required>
 
-            <button type="submit">Calcular ROI</button>
+            <label for="risk-of-failure">Risk of Failure (%):</label>
+            <input type="number" id="risk-of-failure" required>
+
+            <button type="submit">Calculate ROI</button>
         </form>
         <div id="results" class="results">
-            <h2>Resultados</h2>
+            <h2>Results</h2>
             <p id="roi-output"></p>
             <p id="recommendations-output"></p>
         </div>
