@@ -25,6 +25,8 @@ The architecture of the ROI Calculator is designed to be modular and scalable:
 - **Database**: Stores historical data and user inputs for analysis and reporting purposes.
 - **API**: Facilitates communication between the frontend and backend, ensuring seamless data flow and processing.
 
+For a detailed overview of the system architecture, please refer to the [Architecture Documentation](./Arch.md).
+
 ## Approach
 
 The approach to developing the ROI Calculator involved several key steps:
