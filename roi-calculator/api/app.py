@@ -16,7 +16,7 @@ def call_openai_api(payload):
         'Content-Type': 'application/json',
         'Authorization': f'Bearer {AZURE_OPENAI_API_KEY}'
     }
-    response = requests.post(f"{AZURE_OPENAI_ENDPOINT}/v1/engines/gpt-4o-mini/completions", headers=headers, json=payload)
+    response = requests.post(f"{AZURE_OPENAI_ENDPOINT}v1/engines/gpt-4o-mini/completions", headers=headers, json=payload)
     return response.json()
 
 @app.route('/calculate-roi', methods=['POST'])
