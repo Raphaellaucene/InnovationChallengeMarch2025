@@ -7,11 +7,8 @@
   "scripts": {
     "start": "live-server src"
   },
-  "dependencies": {
-    "marked": "^4.3.0"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@types/marked": "^5.0.2",
     "live-server": "^1.2.1"
   },
   "author": "",
