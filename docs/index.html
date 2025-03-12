@@ -1,3 +1,4 @@
+<!-- filepath: c:\Projects\Innovation\docs\index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,51 +10,50 @@
 <body>
     <div class="container">
         <h1>ROI Calculator</h1>
-        <form id="roi-form">
+        <form id="roi-form"> 
+            <!-- Campos do formulário -->
             <div class="form-group">
                 <label for="budget">Project Budget:</label>
-                <input type="number" id="budget" required>
+                <input type="number" id="budget" placeholder="Budget" required>
             </div>
             <div class="form-group">
                 <label for="employees">Number of Impacted Employees:</label>
-                <input type="number" id="employees" required>
+                <input type="number" id="employees" placeholder="Employees" required>
             </div>
             <div class="form-group">
                 <label for="duration">Project Duration (months):</label>
-                <input type="number" id="duration" required>
+                <input type="number" id="duration" placeholder="Duration (months)" required>
             </div>
             <div class="form-group">
                 <label for="training-cost">Training Cost:</label>
-                <input type="number" id="training-cost" required>
+                <input type="number" id="training-cost" placeholder="Training Cost" required>
             </div>
             <div class="form-group">
                 <label for="implementation-cost">Implementation Cost:</label>
-                <input type="number" id="implementation-cost" required>
+                <input type="number" id="implementation-cost" placeholder="Implementation Cost" required>
             </div>
             <div class="form-group">
                 <label for="cost-savings">Cost Savings:</label>
-                <input type="number" id="cost-savings" required>
+                <input type="number" id="cost-savings" placeholder="Cost Savings" required>
             </div>
             <div class="form-group">
                 <label for="revenue-increase">Revenue Increase:</label>
-                <input type="number" id="revenue-increase" required>
+                <input type="number" id="revenue-increase" placeholder="Revenue Increase" required>
             </div>
             <div class="form-group">
                 <label for="discount-rate">Discount Rate (%):</label>
-                <input type="number" id="discount-rate" required>
+                <input type="number" id="discount-rate" placeholder="Discount Rate (%)" required>
             </div>
             <div class="form-group">
                 <label for="risk-of-failure">Risk of Failure (%):</label>
-                <input type="number" id="risk-of-failure" required>
+                <input type="number" id="risk-of-failure" placeholder="Risk of Failure (%)" required>
             </div>
             <button type="submit">Calculate ROI</button>
         </form>
         <div id="results" class="results">
             <h2>Results</h2>
-            <p id="roi-output"></p>
-            <p id="recommendations-output"></p>
         </div>
     </div>
-    <script src="app.js"></script>
+    <script type="module" src="app.js"></script>
 </body>
 </html>

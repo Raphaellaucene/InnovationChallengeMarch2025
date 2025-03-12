@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "description": "A simple ROI calculator to help leaders prepare for change with predictive insights and actionable recommendations.",
   "main": "src/app.js",
+  "type": "module",
   "scripts": {
     "start": "live-server src"
   },
-  "dependencies": {},
+  "dependencies": {
+    "marked": "^4.3.0"
+  },
   "devDependencies": {
+    "@types/marked": "^5.0.2",
     "live-server": "^1.2.1"
   },
   "author": "",

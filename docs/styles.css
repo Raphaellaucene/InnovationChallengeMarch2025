@@ -45,12 +45,8 @@ input[type="text"] {
     box-sizing: border-box; /* Ensure padding is included in the width */
 }
 
-input#risk-of-failure {
-    width: 100%;
-}
-
 button {
-    width:calc(50% - 10px);
+    width: calc(50% - 10px);
     padding: 10px;
     background-color: #28a745;
     color: white;
@@ -65,9 +61,12 @@ button:hover {
 
 .results {
     margin-top: 20px;
-    padding: 10px;
+    padding: 20px;
     background-color: #e9ecef;
     border-radius: 4px;
+    border: 1px solid #ddd;
+    white-space: pre-wrap; /* Ensure text wraps correctly */
+    word-wrap: break-word; /* Ensure long words break correctly */
 }
 
 .error {
@@ -81,7 +80,7 @@ button:hover {
         flex: 1 1 100%;
     }
 
-    input#risk-of-failure {
+    button {
         width: 100%;
     }
 }
