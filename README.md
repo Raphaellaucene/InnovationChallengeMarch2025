@@ -27,6 +27,8 @@ The architecture of the ROI Calculator is designed to be modular and scalable:
 
 For a detailed overview of the system architecture, please refer to the [Architecture Documentation](./Arch.md).
 
+![alt text](./img/restapi.png)
+
 ## Approach
 
 The approach to developing the ROI Calculator involved several key steps:

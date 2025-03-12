@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import requests
 from dotenv import load_dotenv
 import os
@@ -6,22 +7,16 @@ import os
 load_dotenv()  # Carrega as variáveis de ambiente do arquivo .env
 
 app = Flask(__name__)
+CORS(app)  # Habilita CORS para todas as rotas
 
-# Substitua com suas credenciais do Azure OpenAI
+# env
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
 AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
-
-def call_openai_api(payload):
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': f'Bearer {AZURE_OPENAI_API_KEY}'
-    }
-    response = requests.post(f"{AZURE_OPENAI_ENDPOINT}v1/engines/gpt-4o-mini/completions", headers=headers, json=payload)
-    return response.json()
 
 @app.route('/calculate-roi', methods=['POST'])
 def calculate_roi():
     data = request.json
+
     # Valida input
     required_fields = ['budget', 'employees', 'duration', 'trainingCost', 'implementationCost', 'costSavings', 'revenueIncrease', 'discountRate', 'riskOfFailure']
     for field in required_fields:
@@ -106,13 +101,25 @@ def calculate_roi():
 
     # Envia os dados para o Azure OpenAI
     payload = {
-        "prompt": prompt,
-        "max_tokens": 300
+        "model": "gpt-4o-mini",
+        "messages": [
+            {"role": "system", "content": "You are an assistant who analyzes project data."},
+            {"role": "user", "content": prompt}
+        ]
     }
+
     result = call_openai_api(payload)
     if "error" in result:
         return jsonify(result), 500
     return jsonify(result)
+
+def call_openai_api(payload):
+    headers = {
+        'Content-Type': 'application/json',
+        'api-key': f'{AZURE_OPENAI_API_KEY}'
+    }
+    response = requests.post(f"{AZURE_OPENAI_ENDPOINT}", headers=headers, json=payload)
+    return response.json()
 
 if __name__ == '__main__':
     app.run(debug=True)
