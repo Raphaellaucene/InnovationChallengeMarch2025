@@ -42,7 +42,7 @@ function calculateROI() {
         };
         try {
             console.log('Sending data to API:', data);
-            const response = yield fetch('http://127.0.0.1:5000/calculate-roi', {
+            const response = yield fetch('https://SupraFlaskApi.azurewebsites.net/calculate-roi', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
