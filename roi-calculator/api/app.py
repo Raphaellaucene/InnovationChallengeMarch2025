@@ -13,7 +13,7 @@ from opencensus.trace.tracer import Tracer
 load_dotenv()  # Carrega as variáveis de ambiente do arquivo .env
 
 app = Flask(__name__)
-CORS(app)  # Habilita CORS para todas as rotas
+#CORS(app)  # Habilita CORS para todas as rotas
 
 # env
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
@@ -25,15 +25,12 @@ logger = logging.getLogger(__name__)
 logger.addHandler(AzureLogHandler(connection_string={INSTRUMENTATION_KEY}))
 
 # Configurar o tracer para enviar telemetria ao Application Insights
-tracer = Tracer(exporter=AzureExporter(connection_string='InstrumentationKey={AZURE_INSTRUMENTATION_KEY}'),
+tracer = Tracer(exporter=AzureExporter(connection_string={AZURE_INSTRUMENTATION_KEY}),
                 sampler=ProbabilitySampler(1.0))
 
 @app.route('/')
-def sendMessage():
-    with tracer.span(name='sendMessage') as span:
-        logger.info('Message sent successfully!')
-        span.add_annotation("Log message sent successfully.")
-    return 'Message sent successfully!'
+def HelloWorld():
+    return 'Supra ROI API 🚀! Use /calculate-roi para calcular o ROI.'
 
 if __name__ == '__main__':
     app.run(debug=True)
@@ -125,7 +122,7 @@ def calculate_roi():
         risk_of_failure=data['riskOfFailure']
     )
 
-    # Envia os dados para o Azure OpenAI
+    # dados para o Azure OpenAI
     payload = {
         "model": "gpt-4o-mini",
         "messages": [
@@ -144,6 +141,7 @@ def call_openai_api(payload):
         'Content-Type': 'application/json',
         'api-key': f'{AZURE_OPENAI_API_KEY}'
     }
+    # Envia a requisição para o Azure OpenAI
     response = requests.post(f"{AZURE_OPENAI_ENDPOINT}", headers=headers, json=payload)
     return response.json()
 
