@@ -29,11 +29,17 @@ tracer = Tracer(exporter=AzureExporter(connection_string={AZURE_INSTRUMENTATION_
                 sampler=ProbabilitySampler(1.0))
 
 @app.route('/')
-def HelloWorld():
-    return 'Supra ROI API 🚀! Use /calculate-roi para calcular o ROI.'
-
-if __name__ == '__main__':
-    app.run(debug=True)
+def sendMessage():
+    try:
+        with tracer.span(name='sendMessage') as span:
+            span.add_attribute("http.method", "GET")
+            span.add_attribute("endpoint", "/")
+            logger.info('Endpoint acessado com sucesso!')
+            span.add_annotation("Log message sent successfully.")
+        return 'Endpoint acessado com sucesso!', 200
+    except Exception as e:
+        logger.exception("An error occurred: %s", str(e))
+        return 'An error occurred', 500
 
 
 @app.route('/calculate-roi', methods=['POST'])
