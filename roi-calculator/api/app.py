@@ -3,6 +3,12 @@ from flask_cors import CORS
 import requests
 from dotenv import load_dotenv
 import os
+import logging
+
+from opencensus.ext.azure.log_exporter import AzureLogHandler
+from opencensus.ext.azure.trace_exporter import AzureExporter
+from opencensus.trace.samplers import ProbabilitySampler
+from opencensus.trace.tracer import Tracer
 
 load_dotenv()  # Carrega as variáveis de ambiente do arquivo .env
 
@@ -12,6 +18,26 @@ CORS(app)  # Habilita CORS para todas as rotas
 # env
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
 AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
+INSTRUMENTATION_KEY = os.getenv("AZURE_INSTRUMENTATION_KEY")
+
+# Configurar o logger para enviar logs ao Application Insights
+logger = logging.getLogger(__name__)
+logger.addHandler(AzureLogHandler(connection_string='InstrumentationKey={AZURE_INSTRUMENTATION_KEY}'))
+
+# Configurar o tracer para enviar telemetria ao Application Insights
+tracer = Tracer(exporter=AzureExporter(connection_string='InstrumentationKey={AZURE_INSTRUMENTATION_KEY}'),
+                sampler=ProbabilitySampler(1.0))
+
+@app.route('/')
+def sendMessage():
+    with tracer.span(name='sendMessage') as span:
+        logger.info('Message sent successfully!')
+        span.add_annotation("Log message sent successfully.")
+    return 'Message sent successfully!'
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
 
 @app.route('/calculate-roi', methods=['POST'])
 def calculate_roi():
