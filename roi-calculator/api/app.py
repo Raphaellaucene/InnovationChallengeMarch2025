@@ -22,10 +22,10 @@ INSTRUMENTATION_KEY = os.getenv("AZURE_INSTRUMENTATION_KEY")
 
 # Configurar o logger para enviar logs ao Application Insights
 logger = logging.getLogger(__name__)
-logger.addHandler(AzureLogHandler(connection_string=f'InstrumentationKey={AZURE_INSTRUMENTATION_KEY}'))
+logger.addHandler(AzureLogHandler(connection_string=f'InstrumentationKey={INSTRUMENTATION_KEY}'))
 
 # Configurar o tracer para enviar telemetria ao Application Insights
-tracer = Tracer(exporter=AzureExporter(connection_string=f'InstrumentationKey={AZURE_INSTRUMENTATION_KEY}'),
+tracer = Tracer(exporter=AzureExporter(connection_string=f'InstrumentationKey={INSTRUMENTATION_KEY}'),
                 sampler=ProbabilitySampler(1.0))
 
 @app.route('/')
