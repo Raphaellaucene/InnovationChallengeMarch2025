@@ -138,11 +138,12 @@ def calculate_roi():
             {"role": "user", "content": prompt}
         ]
     }
-
     result = call_openai_api(payload)
-    if "error" in result:
-        return jsonify(result), 500
-    return jsonify(result)
+
+if "error" in result:
+    response = make_response(jsonify(result))
+    response.headers["Access-Control-Allow-Origin"] = "https://raphaellaucene.github.io"
+    return response
 
 def call_openai_api(payload):
     headers = {
