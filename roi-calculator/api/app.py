@@ -15,7 +15,7 @@ load_dotenv()  # Carrega as variáveis de ambiente do arquivo .env
 app = Flask(__name__)
 
 # Habilita CORS para as seguintes rotas
-CORS(app, resources={r"/*": {"origins": ["https://raphaellaucene.github.io", "http://localhost:5000"]}}, methods=["POST"], allow_headers=["Content-Type", "Authorization"])
+CORS(app, resources={r"/*": {"origins": ["https://raphaellaucene.github.io/InnovationChallengeMarch2025", "http://localhost:5000"]}}, methods=["POST"], allow_headers=["Content-Type", "Authorization"])
 
 # env
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
@@ -140,9 +140,8 @@ def calculate_roi():
     }
     result = call_openai_api(payload)
 
-if "error" in result:
     response = make_response(jsonify(result))
-    response.headers["Access-Control-Allow-Origin"] = "https://raphaellaucene.github.io"
+    response.headers["Access-Control-Allow-Origin"] = "https://raphaellaucene.github.io/InnovationChallengeMarch2025"
     return response
 
 def call_openai_api(payload):
