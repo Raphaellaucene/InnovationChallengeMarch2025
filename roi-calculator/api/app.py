@@ -22,21 +22,24 @@ INSTRUMENTATION_KEY = os.getenv("AZURE_INSTRUMENTATION_KEY")
 
 # Configurar o logger para enviar logs ao Application Insights
 logger = logging.getLogger(__name__)
-logger.addHandler(AzureLogHandler(connection_string='InstrumentationKey={AZURE_INSTRUMENTATION_KEY}'))
+logger.addHandler(AzureLogHandler(connection_string=f'InstrumentationKey={AZURE_INSTRUMENTATION_KEY}'))
 
 # Configurar o tracer para enviar telemetria ao Application Insights
-tracer = Tracer(exporter=AzureExporter(connection_string='InstrumentationKey={AZURE_INSTRUMENTATION_KEY}'),
+tracer = Tracer(exporter=AzureExporter(connection_string=f'InstrumentationKey={AZURE_INSTRUMENTATION_KEY}'),
                 sampler=ProbabilitySampler(1.0))
 
 @app.route('/')
 def sendMessage():
-    with tracer.span(name='sendMessage') as span:
-        logger.info('Message sent successfully!')
-        span.add_annotation("Log message sent successfully.")
-    return 'Message sent successfully!'
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    try:
+        with tracer.span(name='sendMessage') as span:
+            span.add_attribute("http.method", "GET")
+            span.add_attribute("endpoint", "/")
+            logger.info('Message sent successfully!')
+            span.add_annotation("Log message sent successfully.")
+        return 'Message sent successfully!'
+    except Exception as e:
+        logger.exception("An error occurred: %s", str(e))
+        return 'An error occurred', 500
 
 
 @app.route('/calculate-roi', methods=['POST'])
