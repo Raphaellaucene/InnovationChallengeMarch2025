@@ -15,7 +15,7 @@ load_dotenv()  # Carrega as variáveis de ambiente do arquivo .env
 app = Flask(__name__)
 
 # Habilita CORS para seguintes as rotas
-CORS(app, resources={r"/*": {"origins": "https://raphaellaucene.github.io"}}, methods=["POST"], allow_headers=["Content-Type", "Authorization"])
+CORS(app, resources={r"/*": {"origins": ["https://raphaellaucene.github.io", "http://localhost:5000"]}}, methods=["POST"], allow_headers=["Content-Type", "Authorization"])
 
 # env
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
