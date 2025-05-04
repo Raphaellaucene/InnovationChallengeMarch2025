@@ -13,7 +13,9 @@ from opencensus.trace.tracer import Tracer
 load_dotenv()  # Carrega as variáveis de ambiente do arquivo .env
 
 app = Flask(__name__)
-CORS(app)  # Habilita CORS para todas as rotas
+
+# Habilita CORS para as seguintes rotas
+CORS(app, resources={r"/*": {"origins": ["https://raphaellaucene.github.io", "http://localhost:5000"]}}, methods=["POST"], allow_headers=["Content-Type", "Authorization"])
 
 # env
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
