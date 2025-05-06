@@ -24,16 +24,13 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Navigate to API directory
-        run: cd roi-calculator/api
-
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r roi-calculator/api/requirements.txt
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
       - name: Zip artifact for deployment
-        run: zip release.zip * -r
+        run: zip -r release.zip roi-calculator/api/*
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
@@ -65,9 +62,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_9C44B563EF764A21B0A7B516B31D0531 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_4935D1330011482A8EA3D980BD5DF2BB }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_9BDF7D6571E7452DADA9D82E368E9753 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
