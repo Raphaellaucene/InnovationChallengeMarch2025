@@ -5,41 +5,41 @@ from dotenv import load_dotenv
 import os
 import logging
 
-from opencensus.ext.azure.log_exporter import AzureLogHandler
-from opencensus.ext.azure.trace_exporter import AzureExporter
-from opencensus.trace.samplers import ProbabilitySampler
-from opencensus.trace.tracer import Tracer
+#from opencensus.ext.azure.log_exporter import AzureLogHandler
+#from opencensus.ext.azure.trace_exporter import AzureExporter
+#from opencensus.trace.samplers import ProbabilitySampler
+#from opencensus.trace.tracer import Tracer
 
 load_dotenv()  # Carrega as variáveis de ambiente do arquivo .env
 
 app = Flask(__name__)
-CORS(app)  # Habilita CORS para todas as rotas
+#CORS(app)  # Habilita CORS para todas as rotas
 
 # env
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
 AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
-INSTRUMENTATION_KEY = os.getenv("AZURE_INSTRUMENTATION_KEY")
+#INSTRUMENTATION_KEY = os.getenv("AZURE_INSTRUMENTATION_KEY")
 
 # Configurar o logger para enviar logs ao Application Insights
-logger = logging.getLogger(__name__)
-logger.addHandler(AzureLogHandler(connection_string={INSTRUMENTATION_KEY}))
+#logger = logging.getLogger(__name__)
+#logger.addHandler(AzureLogHandler(connection_string={INSTRUMENTATION_KEY}))
 
 # Configurar o tracer para enviar telemetria ao Application Insights
-tracer = Tracer(exporter=AzureExporter(connection_string={AZURE_INSTRUMENTATION_KEY}),
-                sampler=ProbabilitySampler(1.0))
+#tracer = Tracer(exporter=AzureExporter(connection_string={AZURE_INSTRUMENTATION_KEY}),
+                #sampler=ProbabilitySampler(1.0))
 
 @app.route('/')
 def sendMessage():
-    try:
-        with tracer.span(name='sendMessage') as span:
-            span.add_attribute("http.method", "GET")
-            span.add_attribute("endpoint", "/")
-            logger.info('Endpoint acessado com sucesso!')
-            span.add_annotation("Log message sent successfully.")
+    #try:
+        #with tracer.span(name='sendMessage') as span:
+            #span.add_attribute("http.method", "GET")
+            #span.add_attribute("endpoint", "/")
+            #logger.info('Endpoint acessado com sucesso!')
+            #span.add_annotation("Log message sent successfully.")
         return 'Endpoint acessado com sucesso!', 200
-    except Exception as e:
-        logger.exception("An error occurred: %s", str(e))
-        return 'An error occurred', 500
+    #except Exception as e:
+        #logger.exception("An error occurred: %s", str(e))
+        #return 'An error occurred', 500
 
 
 @app.route('/calculate-roi', methods=['POST'])
