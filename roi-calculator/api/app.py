@@ -3,7 +3,7 @@ from flask_cors import CORS
 import requests
 from dotenv import load_dotenv
 import os
-import logging
+#import logging
 
 #from opencensus.ext.azure.log_exporter import AzureLogHandler
 #from opencensus.ext.azure.trace_exporter import AzureExporter
