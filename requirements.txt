@@ -1,5 +1,0 @@
-Flask
-Flask-CORS
-python-dotenv
-requests
-opencensus-ext-azure
