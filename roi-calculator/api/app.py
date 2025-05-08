@@ -135,7 +135,9 @@ def calculate_roi():
     # Envia os dados para o Azure OpenAI
     result = call_openai_api(payload)
     if "error" in result:
-    return jsonify(result), 500
+        return jsonify(result), 500
+    return jsonify(result)
+
 
 def call_openai_api(payload):
     headers = {
