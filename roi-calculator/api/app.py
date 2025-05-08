@@ -137,23 +137,23 @@ def calculate_roi():
             discount_rate=data['discountRate'],
             risk_of_failure=data['riskOfFailure']
         )
-    # Dados para o Azure OpenAI
-    payload = {
-        "model": "gpt-4o-mini",
-        "messages": [
-            {"role": "system", "content": "You are an assistant who analyzes project data."},
-            {"role": "user", "content": prompt}
-        ]
-    }
+        # Dados para o Azure OpenAI
+        payload = {
+            "model": "gpt-4o-mini",
+            "messages": [
+                {"role": "system", "content": "You are an assistant who analyzes project data."},
+                {"role": "user", "content": prompt}
+            ]
+        }
+        # Chama a API do OpenAI
+        result = call_openai_api(payload)
+        if "error" in result:
+            logger.error(f"Error from OpenAI API: {result['error']}")
+            return jsonify(result), 500
 
-    result = call_openai_api(payload)
-    if "error" in result:
-        logger.error(f"Error from OpenAI API: {result['error']}")
-        return jsonify(result), 500
-
-    logger.info("ROI calculation completed successfully.")
-    return jsonify(result)
-
+        logger.info("ROI calculation completed successfully.")
+        return jsonify(result)
+        
     except Exception as e:
         logger.exception("An unexpected error occurred.")
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
