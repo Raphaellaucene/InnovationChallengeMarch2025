@@ -3,7 +3,6 @@ from flask_cors import CORS
 import requests
 from dotenv import load_dotenv
 import os
-import logging
 
 from opencensus.ext.azure.log_exporter import AzureLogHandler
 from opencensus.ext.azure.trace_exporter import AzureExporter
@@ -22,10 +21,6 @@ AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
 AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
 INSTRUMENTATION_KEY = os.getenv("AZURE_INSTRUMENTATION_KEY")
 
-# Configurar o logger para enviar logs ao Application Insights
-logger = logging.getLogger(__name__)
-logger.addHandler(AzureLogHandler(connection_string=f'InstrumentationKey={INSTRUMENTATION_KEY}'))
-
 # Configurar o tracer para enviar telemetria ao Application Insights
 tracer = Tracer(exporter=AzureExporter(connection_string=f'InstrumentationKey={INSTRUMENTATION_KEY}'),
                 sampler=ProbabilitySampler(1.0))
@@ -36,18 +31,15 @@ def sendMessage():
         with tracer.span(name='sendMessage') as span:
             span.add_attribute("http.method", "GET")
             span.add_attribute("endpoint", "/")
-            logger.info('Message sent successfully!')
             span.add_annotation("Log message sent successfully.")
         return 'Message sent successfully!'
     except Exception as e:
-        logger.exception("An error occurred: %s", str(e))
         return 'An error occurred', 500
 
 
 @app.route('/calculate-roi', methods=['POST'])
 def calculate_roi():
     data = request.json
-    logger.info(f"Received data: {data}")
 
     # Valida input
     required_fields = ['budget', 'employees', 'duration', 'trainingCost', 'implementationCost', 'costSavings', 'revenueIncrease', 'discountRate', 'riskOfFailure']
@@ -143,11 +135,7 @@ def calculate_roi():
     # Envia os dados para o Azure OpenAI
     result = call_openai_api(payload)
     if "error" in result:
-        logger.error(f"Error from OpenAI API: {result['error']}")
-        return jsonify(result), 500
-
-        logger.info("ROI calculation completed successfully.")
-    return jsonify(result)
+    return jsonify(result), 500
 
 def call_openai_api(payload):
     headers = {
@@ -157,10 +145,8 @@ def call_openai_api(payload):
     try:
         response = requests.post(f"{AZURE_OPENAI_ENDPOINT}", headers=headers, json=payload) # Envia a requisição para o Azure OpenAI
         response.raise_for_status()  # Levanta uma exceção para códigos de status HTTP 4xx/5xx
-        logger.info("Request to Azure OpenAI API succeeded.")
         return response.json()
     except requests.exceptions.RequestException as e:
-        logger.error(f"Error calling OpenAI API: {e}")
         return {"error": str(e)}
 
 if __name__ == '__main__':
