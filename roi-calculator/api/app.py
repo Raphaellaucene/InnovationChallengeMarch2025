@@ -47,6 +47,7 @@ def sendMessage():
 @app.route('/calculate-roi', methods=['POST'])
 def calculate_roi():
     data = request.json
+    logger.info(f"Received data: {data}")
 
     # Valida input
     required_fields = ['budget', 'employees', 'duration', 'trainingCost', 'implementationCost', 'costSavings', 'revenueIncrease', 'discountRate', 'riskOfFailure']
@@ -130,7 +131,7 @@ def calculate_roi():
         risk_of_failure=data['riskOfFailure']
     )
 
-    # Envia os dados para o Azure OpenAI
+    
     payload = {
         "model": "gpt-4o-mini",
         "messages": [
@@ -138,7 +139,8 @@ def calculate_roi():
             {"role": "user", "content": prompt}
         ]
     }
-
+    
+    # Envia os dados para o Azure OpenAI
     result = call_openai_api(payload)
     if "error" in result:
         return jsonify(result), 500
